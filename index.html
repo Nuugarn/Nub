@@ -15,39 +15,86 @@
     main { width:min(920px,100%); }
     .weeks { margin-bottom:12px; }
     .countdown { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-    .unit { background:var(--card); border:1px solid var(--border); border-radius:24px; padding:clamp(28px,5vw,48px) 16px; text-align:center; }
+    .unit { background:var(--card); border:1px solid var(--border); border-radius:24px; padding:clamp(28px,5vw,48px) 16px; text-align:center; will-change:transform,opacity; }
     .weeks .unit { padding:clamp(24px,4vw,36px) 16px; }
     .number { display:block; font-size:clamp(42px,8vw,82px); line-height:.95; font-weight:600; letter-spacing:-.06em; font-variant-numeric:tabular-nums; }
     .weeks .number { font-size:clamp(36px,6vw,64px); }
     .label { display:block; margin-top:14px; color:var(--muted); font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; }
+
+    /* Subtle 2-second transition: soft blink + tiny modern shake. Seconds are intentionally excluded. */
+    .unit.tick { animation: tick 2s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes tick {
+      0%   { opacity:1; transform:translate3d(0,0,0) scale(1); }
+      12%  { opacity:.52; transform:translate3d(-2px,0,0) scale(.997); }
+      24%  { opacity:1; transform:translate3d(2px,0,0) scale(1); }
+      36%  { opacity:.62; transform:translate3d(-1.5px,0,0); }
+      48%  { opacity:1; transform:translate3d(1.5px,0,0); }
+      62%  { opacity:.78; transform:translate3d(-.8px,0,0); }
+      78%  { opacity:.94; transform:translate3d(.4px,0,0); }
+      100% { opacity:1; transform:translate3d(0,0,0) scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) { .unit.tick { animation:fadeTick 2s ease both; } }
+    @keyframes fadeTick { 0%,100%{opacity:1} 25%{opacity:.55} 50%{opacity:1} 75%{opacity:.7} }
     @media (max-width:640px) { .countdown { grid-template-columns:repeat(2,1fr); gap:10px; } .unit { border-radius:20px; padding:30px 12px; } .weeks .unit { padding:26px 12px; } }
   </style>
 </head>
 <body>
   <main aria-label="Countdown to February 1, 2027">
     <section class="weeks">
-      <div class="unit"><span class="number" id="weeks">00</span><span class="label">Weeks</span></div>
+      <div class="unit" id="weeksCard"><span class="number" id="weeks">00</span><span class="label">Weeks</span></div>
     </section>
     <section class="countdown">
-      <div class="unit"><span class="number" id="days">000</span><span class="label">Days</span></div>
-      <div class="unit"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
-      <div class="unit"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
-      <div class="unit"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
+      <div class="unit" id="daysCard"><span class="number" id="days">000</span><span class="label">Days</span></div>
+      <div class="unit" id="hoursCard"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
+      <div class="unit" id="minutesCard"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
+      <div class="unit" id="secondsCard"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
     </section>
   </main>
   <script>
     const target = new Date("2027-02-01T00:00:00+07:00").getTime();
-    const weeksEl=document.getElementById("weeks"), daysEl=document.getElementById("days"), hoursEl=document.getElementById("hours"), minutesEl=document.getElementById("minutes"), secondsEl=document.getElementById("seconds");
-    function updateCountdown(){
-      const remaining=Math.max(0,target-Date.now());
-      const weeks=Math.floor(remaining/604800000);
-      const days=Math.floor((remaining%604800000)/86400000);
-      const hours=Math.floor((remaining%86400000)/3600000);
-      const minutes=Math.floor((remaining%3600000)/60000);
-      const seconds=Math.floor((remaining%60000)/1000);
-      weeksEl.textContent=String(weeks).padStart(2,"0"); daysEl.textContent=String(days).padStart(3,"0"); hoursEl.textContent=String(hours).padStart(2,"0"); minutesEl.textContent=String(minutes).padStart(2,"0"); secondsEl.textContent=String(seconds).padStart(2,"0");
+    const values = {
+      weeks: document.getElementById("weeks"),
+      days: document.getElementById("days"),
+      hours: document.getElementById("hours"),
+      minutes: document.getElementById("minutes"),
+      seconds: document.getElementById("seconds")
+    };
+    const cards = {
+      weeks: document.getElementById("weeksCard"),
+      days: document.getElementById("daysCard"),
+      hours: document.getElementById("hoursCard"),
+      minutes: document.getElementById("minutesCard"),
+      seconds: document.getElementById("secondsCard")
+    };
+    let previous = null;
+
+    function animateChange(unit) {
+      if (unit === "seconds") return;
+      const card = cards[unit];
+      card.classList.remove("tick");
+      void card.offsetWidth;
+      card.classList.add("tick");
     }
-    updateCountdown(); setInterval(updateCountdown,1000);
+
+    function updateCountdown() {
+      const remaining = Math.max(0, target - Date.now());
+      const totalDays = Math.floor(remaining / 86400000);
+      const weeks = Math.floor(totalDays / 7);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      const current = { weeks, days: totalDays, hours, minutes, seconds };
+
+      for (const unit of ["weeks", "days", "hours", "minutes", "seconds"]) {
+        const digits = unit === "days" ? 3 : 2;
+        values[unit].textContent = String(current[unit]).padStart(digits, "0");
+        if (previous !== null && current[unit] !== previous[unit]) animateChange(unit);
+      }
+      previous = current;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
