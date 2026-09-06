@@ -10,148 +10,59 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#09090b;--card:rgba(24,24,27,.72);--card2:rgba(39,39,42,.58);--text:#fafafa;--muted:#a1a1aa;--line:rgba(255,255,255,.09);--accent:#8b5cf6;--accent2:#22d3ee;--red:#ef4444;}
+    :root{--bg:#09090b;--card:#18181bcc;--text:#fafafa;--muted:#a1a1aa;--line:#ffffff17;--accent:#8b5cf6;--accent2:#22d3ee;--red:#ef4444}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:var(--bg)}
     body{min-height:100vh;display:grid;place-items:center;padding:22px;color:var(--text);font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
-    body:before{content:"";position:fixed;inset:-30%;z-index:-2;background:radial-gradient(circle at 20% 20%,rgba(139,92,246,.16),transparent 32%),radial-gradient(circle at 80% 70%,rgba(34,211,238,.11),transparent 30%);animation:ambient 14s ease-in-out infinite alternate}
-    body:after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.025) 45%,transparent 55%);background-size:220% 100%;animation:sweep 10s linear infinite;pointer-events:none}
+    body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 20% 20%,#8b5cf626,transparent 32%),radial-gradient(circle at 80% 70%,#22d3ee1c,transparent 30%)}
     main{width:min(980px,100%);position:relative}
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 4px 14px;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
     .clock{display:flex;align-items:center;gap:8px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:.04em}
-    .live{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 12px rgba(34,197,94,.8);animation:live 2s ease-in-out infinite}
+    .live{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 12px #22c55ecc}
     .target{opacity:.72}
-    .hero{position:relative;padding:22px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));backdrop-filter:blur(18px);box-shadow:0 24px 80px rgba(0,0,0,.28);overflow:hidden}
-    .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.055) 48%,transparent 55%);background-size:230% 100%;animation:cardSweep 7s ease-in-out infinite;pointer-events:none}
+    .hero{position:relative;padding:22px;border:1px solid var(--line);border-radius:30px;background:#18181be8;box-shadow:0 24px 80px #00000047;overflow:hidden}
     .weeks{margin-bottom:12px}
     .countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .unit{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:clamp(28px,5vw,48px) 16px;text-align:center;will-change:transform,opacity,box-shadow;box-shadow:inset 0 1px 0 rgba(255,255,255,.025);transition:transform .25s ease,border-color .25s ease}
-    .unit:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.17)}
-    .weeks .unit{padding:clamp(22px,4vw,34px) 16px;background:linear-gradient(135deg,rgba(139,92,246,.13),rgba(24,24,27,.7))}
-    .number{display:block;font-size:clamp(42px,8vw,82px);line-height:.95;font-weight:650;letter-spacing:-.07em;font-variant-numeric:tabular-nums;text-shadow:0 0 28px rgba(255,255,255,.04)}
+    .unit{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:clamp(28px,5vw,48px) 16px;text-align:center;will-change:transform,opacity,box-shadow;box-shadow:inset 0 1px 0 #ffffff06}
+    .weeks .unit{padding:clamp(22px,4vw,34px) 16px;background:linear-gradient(135deg,#8b5cf621,#18181bcc)}
+    .number{display:block;font-size:clamp(42px,8vw,82px);line-height:.95;font-weight:650;letter-spacing:-.07em;font-variant-numeric:tabular-nums;text-shadow:0 0 28px #ffffff0a}
     .weeks .number{font-size:clamp(36px,6vw,64px)}
     .label{display:block;margin-top:14px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
     .unit.tick{animation:breakFall .9s cubic-bezier(.2,.85,.3,1) both}
-    .unit.tick:before{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(239,68,68,.95);opacity:0;animation:redFlash .9s ease-out both}
-    .unit.tick:after{content:"";position:absolute;left:50%;top:16%;width:2px;height:74%;background:rgba(255,255,255,.78);box-shadow:0 0 10px rgba(239,68,68,.8);transform:translateX(-50%) rotate(8deg) scaleY(0);transform-origin:top;opacity:0;animation:crack .9s ease-out both}
+    .unit.tick:before{content:"";position:absolute;inset:0;pointer-events:none;background:#ef4444f2;opacity:0;animation:redFlash .9s ease-out both}
+    .unit.tick:after{content:"";position:absolute;left:50%;top:16%;width:2px;height:74%;background:#ffffffc7;box-shadow:0 0 10px #ef4444cc;transform:translateX(-50%) rotate(8deg) scaleY(0);transform-origin:top;opacity:0;animation:crack .9s ease-out both}
     .unit.minuteTick{animation:minuteBreak .8s cubic-bezier(.2,.8,.25,1) both}
-    .unit.minuteTick:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at center,rgba(239,68,68,.9),transparent 55%);opacity:0;animation:minuteFlash .8s ease-out both;pointer-events:none}
+    .unit.minuteTick:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at center,#ef4444e6,transparent 55%);opacity:0;animation:minuteFlash .8s ease-out both;pointer-events:none}
     .unit.hourPulse{animation:hourPulse 1s ease-out both}
     .unit.weekPulse{animation:weekPulse 1.15s cubic-bezier(.2,.8,.2,1) both}
-    .progress-wrap{margin-top:18px}
-    .progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-    .progress-meta strong{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
-    .progress{height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;border:1px solid rgba(255,255,255,.05)}
-    .progress-bar{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 18px rgba(139,92,246,.55);transition:width 1s linear;position:relative}
-    .progress-bar:after{content:"";position:absolute;right:0;top:0;width:80px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8));filter:blur(3px);animation:barShine 2.8s linear infinite}
-    .status{min-height:18px;margin-top:13px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.06em}
-    .toast{position:absolute;left:50%;top:50%;z-index:5;transform:translate(-50%,-50%) scale(.8);padding:9px 14px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(9,9,11,.76);backdrop-filter:blur(12px);font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:0;pointer-events:none;white-space:nowrap}
-    .toast.show{animation:toastIn 1.5s ease both}
-    .spark{position:fixed;width:4px;height:4px;border-radius:50%;background:white;box-shadow:0 0 12px rgba(255,255,255,.9);pointer-events:none;opacity:0;z-index:10}
-    .final-mode .hero{animation:finalAura 3s ease-in-out infinite alternate}
-    .final-mode .hours-card{border-color:rgba(239,68,68,.42);box-shadow:0 0 30px rgba(239,68,68,.12)}
-    @keyframes ambient{to{transform:translate3d(2%, -2%,0) scale(1.04)}}
-    @keyframes sweep{0%{background-position:220% 0}100%{background-position:-220% 0}}
-    @keyframes cardSweep{0%,35%{background-position:220% 0}65%,100%{background-position:-220% 0}}
-    @keyframes live{50%{transform:scale(1.55);opacity:.55}}
-    @keyframes redFlash{0%{opacity:0}10%{opacity:.76}23%{opacity:0}100%{opacity:0}}
-    @keyframes crack{0%,15%{opacity:0;transform:translateX(-50%) rotate(8deg) scaleY(0)}25%{opacity:1;transform:translateX(-50%) rotate(8deg) scaleY(1)}55%,100%{opacity:0;transform:translateX(-50%) rotate(8deg) scaleY(1)}}
-    @keyframes breakFall{0%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}10%{transform:translate3d(-3px,0,0) rotate(-1deg) scale(.995);box-shadow:0 0 0 3px rgba(239,68,68,.32)}20%{opacity:.9;transform:translate3d(4px,-1px,0) rotate(1deg) scale(1.006)}34%{transform:translate3d(-4px,2px,0) rotate(-1.2deg) scale(.99)}50%{transform:translate3d(2px,9px,0) rotate(1.7deg) scale(.98)}68%{opacity:.78;transform:translate3d(-1px,20px,0) rotate(-2deg) scale(.97)}82%{opacity:.5;transform:translate3d(1px,32px,0) rotate(2.5deg) scale(.96)}100%{opacity:1;transform:none}}
-    @keyframes minuteBreak{0%{transform:scale(1) rotate(0)}15%{transform:scale(1.035) rotate(-1deg);box-shadow:0 0 0 3px rgba(239,68,68,.35)}30%{transform:scale(.97) rotate(1deg)}55%{transform:scale(1.015) rotate(-.5deg)}100%{transform:scale(1) rotate(0)}}
-    @keyframes minuteFlash{0%{opacity:0}12%{opacity:.5}28%{opacity:0}100%{opacity:0}}
-    @keyframes hourPulse{0%{transform:scale(1);box-shadow:0 0 0 rgba(34,211,238,0)}25%{transform:scale(1.035);box-shadow:0 0 0 5px rgba(34,211,238,.12),0 0 34px rgba(34,211,238,.18)}100%{transform:scale(1);box-shadow:0 0 0 rgba(34,211,238,0)}}
-    @keyframes weekPulse{0%{transform:scale(1)}35%{transform:scale(1.035);box-shadow:0 0 0 7px rgba(139,92,246,.12),0 0 45px rgba(139,92,246,.25)}100%{transform:scale(1)}}
-    @keyframes barShine{0%{transform:translateX(0);opacity:0}25%{opacity:.8}100%{transform:translateX(-100px);opacity:0}}
-    @keyframes toastIn{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.8)}18%,72%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-    @keyframes finalAura{to{box-shadow:0 0 60px rgba(239,68,68,.12),0 24px 80px rgba(0,0,0,.28)}}
+    .progress-wrap{margin-top:18px}.progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.progress-meta strong{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}.progress{height:8px;border-radius:99px;background:#ffffff12;overflow:hidden;border:1px solid #ffffff0d}.progress-bar{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));box-shadow:0 0 18px #8b5cf68c;transition:width 1s linear;position:relative}
+    .status{min-height:18px;margin-top:13px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.06em}.toast{position:absolute;left:50%;top:50%;z-index:5;transform:translate(-50%,-50%) scale(.8);padding:9px 14px;border:1px solid #ffffff26;border-radius:999px;background:#09090bf5;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:0;pointer-events:none;white-space:nowrap}.toast.show{animation:toastIn 1.5s ease both}.spark{position:fixed;width:4px;height:4px;border-radius:50%;background:white;box-shadow:0 0 12px #ffffffe6;pointer-events:none;opacity:0;z-index:10}.final-mode .hero{box-shadow:0 0 60px #ef44441f,0 24px 80px #00000047}.final-mode .hours-card{border-color:#ef44446b;box-shadow:0 0 30px #ef44441f}
+    @keyframes redFlash{0%{opacity:0}10%{opacity:.76}23%{opacity:0}100%{opacity:0}}@keyframes crack{0%,15%{opacity:0;transform:translateX(-50%) rotate(8deg) scaleY(0)}25%{opacity:1;transform:translateX(-50%) rotate(8deg) scaleY(1)}55%,100%{opacity:0;transform:translateX(-50%) rotate(8deg) scaleY(1)}}@keyframes breakFall{0%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}10%{transform:translate3d(-3px,0,0) rotate(-1deg) scale(.995);box-shadow:0 0 0 3px #ef444452}20%{opacity:.9;transform:translate3d(4px,-1px,0) rotate(1deg) scale(1.006)}34%{transform:translate3d(-4px,2px,0) rotate(-1.2deg) scale(.99)}50%{transform:translate3d(2px,9px,0) rotate(1.7deg) scale(.98)}68%{opacity:.78;transform:translate3d(-1px,20px,0) rotate(-2deg) scale(.97)}82%{opacity:.5;transform:translate3d(1px,32px,0) rotate(2.5deg) scale(.96)}100%{opacity:1;transform:none}}@keyframes minuteBreak{0%{transform:scale(1) rotate(0)}15%{transform:scale(1.035) rotate(-1deg);box-shadow:0 0 0 3px #ef444459}30%{transform:scale(.97) rotate(1deg)}55%{transform:scale(1.015) rotate(-.5deg)}100%{transform:scale(1) rotate(0)}}@keyframes minuteFlash{0%{opacity:0}12%{opacity:.5}28%{opacity:0}100%{opacity:0}}@keyframes hourPulse{0%{transform:scale(1);box-shadow:0 0 0 #22d3ee00}25%{transform:scale(1.035);box-shadow:0 0 0 5px #22d3ee1f,0 0 34px #22d3ee2e}100%{transform:scale(1);box-shadow:0 0 0 #22d3ee00}}@keyframes weekPulse{0%{transform:scale(1)}35%{transform:scale(1.035);box-shadow:0 0 0 7px #8b5cf61f,0 0 45px #8b5cf640}100%{transform:scale(1)}}@keyframes toastIn{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.8)}18%,72%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+    .low-power .unit.tick,.low-power .unit.minuteTick,.low-power .unit.hourPulse,.low-power .unit.weekPulse{animation-duration:.55s}.low-power .spark{box-shadow:none}.low-power .live{box-shadow:none}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.unit.tick:before,.unit.tick:after,.unit.minuteTick:before{display:none}}
     @media(max-width:640px){body{padding:14px}.hero{padding:14px;border-radius:24px}.countdown{grid-template-columns:repeat(2,1fr);gap:9px}.unit{border-radius:19px;padding:30px 10px}.weeks .unit{padding:24px 10px}.topbar{font-size:10px}.target{display:none}}
   </style>
 </head>
 <body>
-  <main aria-label="Countdown to February 1, 2027">
-    <div class="topbar">
-      <div class="clock"><span class="live"></span><span id="clock">00:00:00</span><span>Thailand · GMT+7</span></div>
-      <div class="target">Target · 01 Feb 2027</div>
-    </div>
-    <div class="hero" id="hero">
-      <div class="weeks"><div class="unit" id="weeksCard"><span class="number" id="weeks">00</span><span class="label">Weeks</span></div></div>
-      <section class="countdown">
-        <div class="unit" id="daysCard"><span class="number" id="days">000</span><span class="label">Days</span></div>
-        <div class="unit hours-card" id="hoursCard"><span class="number" id="hours">00</span><span class="label">Hours</span></div>
-        <div class="unit" id="minutesCard"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div>
-        <div class="unit" id="secondsCard"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div>
-      </section>
-      <div class="progress-wrap" aria-label="Countdown progress">
-        <div class="progress-meta"><span>Progress</span><strong id="progressText">0.00%</strong></div>
-        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-      </div>
-      <div class="status" id="status">Counting down to February 1, 2027</div>
-      <div class="toast" id="toast"></div>
-    </div>
-  </main>
-
+  <main aria-label="Countdown to February 1, 2027"><div class="topbar"><div class="clock"><span class="live"></span><span id="clock">00:00:00</span><span>Thailand · GMT+7</span></div><div class="target">Target · 01 Feb 2027</div></div><div class="hero" id="hero"><div class="weeks"><div class="unit" id="weeksCard"><span class="number" id="weeks">00</span><span class="label">Weeks</span></div></div><section class="countdown"><div class="unit" id="daysCard"><span class="number" id="days">000</span><span class="label">Days</span></div><div class="unit hours-card" id="hoursCard"><span class="number" id="hours">00</span><span class="label">Hours</span></div><div class="unit" id="minutesCard"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div><div class="unit" id="secondsCard"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div></section><div class="progress-wrap" aria-label="Countdown progress"><div class="progress-meta"><span>Progress</span><strong id="progressText">0.00%</strong></div><div class="progress"><div class="progress-bar" id="progressBar"></div></div></div><div class="status" id="status">Counting down to February 1, 2027</div><div class="toast" id="toast"></div></div></main>
   <script>
-    const start=new Date("2026-02-01T00:00:00+07:00").getTime();
-    const target=new Date("2027-02-01T00:00:00+07:00").getTime();
+    const start=new Date("2026-02-01T00:00:00+07:00").getTime(),target=new Date("2027-02-01T00:00:00+07:00").getTime();
     const values={weeks:document.getElementById("weeks"),days:document.getElementById("days"),hours:document.getElementById("hours"),minutes:document.getElementById("minutes"),seconds:document.getElementById("seconds")};
     const cards={weeks:document.getElementById("weeksCard"),days:document.getElementById("daysCard"),hours:document.getElementById("hoursCard"),minutes:document.getElementById("minutesCard"),seconds:document.getElementById("secondsCard")};
     const clock=document.getElementById("clock"),progressBar=document.getElementById("progressBar"),progressText=document.getElementById("progressText"),status=document.getElementById("status"),toast=document.getElementById("toast"),hero=document.getElementById("hero");
-    let previous=null,sessionStart=Date.now(),lastWeek=null,lastMilestone=0;
-
+    const lowPower=matchMedia("(prefers-reduced-motion: reduce)").matches||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4)||(navigator.deviceMemory&&navigator.deviceMemory<=4);if(lowPower)document.documentElement.classList.add("low-power");
+    let previous=null,sessionStart=Date.now(),lastMilestone=0,completed=false;
     function pad(n,d=2){return String(n).padStart(d,"0")}
-    function animate(unit,type="tick"){
-      const card=cards[unit];
-      card.classList.remove("tick","minuteTick","hourPulse","weekPulse");
-      void card.offsetWidth;
-      card.classList.add(type);
-    }
+    function animate(unit,type="tick"){const card=cards[unit];card.classList.remove("tick","minuteTick","hourPulse","weekPulse");void card.offsetWidth;card.classList.add(type)}
     function showToast(text){toast.textContent=text;toast.classList.remove("show");void toast.offsetWidth;toast.classList.add("show")}
-    function sparkBurst(count=5){
-      for(let i=0;i<count;i++){
-        const s=document.createElement("span");s.className="spark";document.body.appendChild(s);
-        s.style.left=(50+(Math.random()-.5)*30)+"vw";s.style.top=(48+(Math.random()-.5)*22)+"vh";
-        const x=(Math.random()-.5)*180,y=(Math.random()-.5)*120;
-        s.animate([{transform:"translate(0,0) scale(.5)",opacity:0},{transform:`translate(${x}px,${y}px) scale(1)`,opacity:.9},{transform:`translate(${x*1.35}px,${y*1.35}px) scale(0)`,opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.8,.2,1)"}).finished.then(()=>s.remove());
-      }
+    function sparkBurst(count=5){if(lowPower)count=Math.min(count,2);for(let i=0;i<count;i++){const s=document.createElement("span");s.className="spark";document.body.appendChild(s);s.style.left=(50+(Math.random()-.5)*30)+"vw";s.style.top=(48+(Math.random()-.5)*22)+"vh";const x=(Math.random()-.5)*260,y=(Math.random()-.5)*180-40;s.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:`translate(${x}px,${y}px) scale(.2)`,opacity:0}],{duration:700+Math.random()*500,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>s.remove()}}
+    function update(){const now=Date.now(),remaining=Math.max(0,target-now);clock.textContent=new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);const totalSeconds=Math.floor(remaining/1000),days=Math.floor(totalSeconds/86400),hours=Math.floor(totalSeconds%86400/3600),minutes=Math.floor(totalSeconds%3600/60),seconds=totalSeconds%60,weeks=Math.floor(days/7);values.weeks.textContent=pad(weeks);values.days.textContent=pad(days,3);values.hours.textContent=pad(hours);values.minutes.textContent=pad(minutes);values.seconds.textContent=pad(seconds);const progress=Math.min(100,Math.max(0,(now-start)/(target-start)*100));progressBar.style.width=progress+"%";progressText.textContent=progress.toFixed(2)+"%";
+      if(previous){if(seconds!==previous.seconds){cards.seconds.animate([{transform:"translateY(-4px)",opacity:.65},{transform:"none",opacity:1}],{duration:180,easing:"ease-out"})}if(minutes!==previous.minutes) {animate("minutes","minuteTick");hero.animate([{filter:"brightness(1)"},{filter:"brightness(1.5)"},{filter:"brightness(1)"}],{duration:500,easing:"ease-out"});showToast("Minute changed")}if(hours!==previous.hours)animate("hours","hourPulse");if(days!==previous.days){animate("days","tick");sparkBurst(6);showToast("NEW DAY")}if(weeks!==previous.weeks){animate("weeks","weekPulse");sparkBurst(7);showToast("NEW WEEK")}}
+      previous={seconds,minutes,hours,days,weeks};const elapsed=Math.floor((now-sessionStart)/1000);for(const m of [60,90,120,180])if(elapsed>=m&&lastMilestone<m){lastMilestone=m;showToast(m===60?"1 MINUTE":m===90?"VISUAL UNLOCKED":m===120?"2 MINUTES":"LONG STAY");sparkBurst(5)}
+      if(days<=7)document.body.classList.add("final-mode");if(days<=1)status.textContent="Final 24 hours";else if(days<=7)status.textContent="Final 7 days";else status.textContent="Counting down to February 1, 2027";
+      if(now>=target&&!completed){completed=true;values.weeks.textContent="00";values.days.textContent="000";values.hours.textContent="00";values.minutes.textContent="00";values.seconds.textContent="00";status.textContent="Target reached";showToast("COMPLETE");sparkBurst(8)}
     }
-    function updateClock(){
-      const now=new Date();
-      const h=now.getHours(),m=now.getMinutes(),s=now.getSeconds();
-      clock.textContent=`${pad(h)}:${pad(m)}:${pad(s)}`;
-    }
-    function updateCountdown(){
-      const now=Date.now(),remaining=Math.max(0,target-now),totalDays=Math.floor(remaining/86400000);
-      const current={weeks:Math.floor(totalDays/7),days:totalDays,hours:Math.floor((remaining%86400000)/3600000),minutes:Math.floor((remaining%3600000)/60000),seconds:Math.floor((remaining%60000)/1000)};
-      for(const unit of ["weeks","days","hours","minutes","seconds"]){
-        const digits=unit==="days"?3:2;
-        values[unit].textContent=pad(current[unit],digits);
-      }
-      if(previous){
-        if(current.seconds!==previous.seconds) values.seconds.animate([{transform:"translateY(-4px)"},{transform:"translateY(0)"}],{duration:180,easing:"ease-out"});
-        if(current.minutes!==previous.minutes){animate("minutes","minuteTick");showToast("Minute changed");}
-        if(current.hours!==previous.hours){animate("hours","hourPulse");showToast("New hour");}
-        if(current.days!==previous.days){animate("days","tick");sparkBurst(4);showToast(`${current.days} days remaining`)}
-        if(current.weeks!==previous.weeks){animate("weeks","weekPulse");sparkBurst(7);showToast("NEW WEEK")}
-      }
-      previous=current;
-      const elapsed=Math.min(Math.max((now-start)/(target-start),0),1),pct=elapsed*100;
-      progressBar.style.width=pct+"%";progressText.textContent=pct.toFixed(2)+"%";
-      if(remaining<=86400000){hero.classList.add("final-mode");status.textContent="Final 24 hours"}
-      else if(remaining<=7*86400000){hero.classList.add("final-mode");status.textContent="Final week"}
-      else if(remaining<=30*86400000){status.textContent="30-day countdown zone"}
-      else status.textContent="Counting down to February 1, 2027";
-      if(remaining===0){status.textContent="THE WAIT IS OVER";showToast("THE WAIT IS OVER");sparkBurst(18)}
-    }
-    function sessionEffects(){
-      const elapsed=Math.floor((Date.now()-sessionStart)/1000);
-      const milestones={60:"1 MINUTE",90:"VISUAL UNLOCKED",120:"2 MINUTES",180:"LONG STAY"};
-      for(const [sec,text] of Object.entries(milestones)){
-        if(elapsed>=Number(sec)&&lastMilestone<Number(sec)){lastMilestone=Number(sec);showToast(text);sparkBurst(Number(sec)>=120?8:4);}
-      }
-    }
-    updateClock();updateCountdown();
-    setInterval(()=>{updateClock();updateCountdown();sessionEffects()},1000);
+    update();setInterval(update,1000);
   </script>
 </body>
 </html>
